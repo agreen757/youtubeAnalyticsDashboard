@@ -1,0 +1,295 @@
+<!-- 
+    CREATING THIS ELEMENT TO MAKE A TILED PANEL OUT OF AN AUTHENTICATED REQUEST USING A CHANNEL ID.
+
+    DISPLAYS PAPER ELEMTENTS FOR EACH CHANNEL SHOWING STATS
+    PAPER ELEMENTS ARE CLICKABLE DISPLAYING A D3 CHART OF THE CHANNEL'S WEEKLY VIEWS IN A POP UP DIALOG
+
+    ROADMAP:
+    MAKE THIS FULLY RESPONSIVE
+-->
+
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/paper-shadow/paper-shadow.html" />
+<link rel="import" href="/bower_components/core-ajax/core-ajax.html" />
+<link rel="import" href="/bower_components/paper-dialog/paper-dialog.html" />
+<link rel="import" href="/bower_components/paper-button/paper-button.html" />
+<link rel="import" href="/bower_components/core-icons/core-icons.html">
+<link rel="import" href="/bower_components/paper-fab/paper-fab.html">
+<script src="/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/bower_components/d3/d3.js"></script>
+<link href="http://fonts.googleapis.com/css?family=Roboto:400,100" rel="stylesheet" type="text/css" />
+
+
+<polymer-element name="three-hundred">
+  <template>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        paper-shadow {
+            width: 300px;
+            display: inline-block;
+            margin-top: 20px;
+            float:left;
+            margin-left: 20px;
+            font-family: 'Roboto', sans-serif;
+            color: #333333;
+            transition: all .2s ease-in-out;
+        }
+        paper-shadow:hover {
+            transform: scale(1.05); 
+        }
+        img {
+            border-radius: 100px;
+            border: solid 2px #333333;
+        }
+        #stats {
+            font-size: .8em;
+            margin-top: -25px;
+        }
+        #title {
+            padding-top: 70px;
+            font-size:1.5em;
+        }
+        #heading {
+            font-size: 2.5em;
+        }
+        paper-button {
+            background: #4285f4;
+        }
+        
+        .axis path, .axis line
+        {
+            fill: none;
+            stroke: #777;
+            shape-rendering: crispEdges;
+        } 
+        
+        .axis text
+        {
+            font-family: 'Arial';
+            font-size: 13px;
+        }
+        .tick
+        {
+            stroke-dasharray: 1, 2;
+        }
+        .bar
+        {
+            fill: FireBrick;
+        }
+        
+        .scroller {
+            text-align: center
+        }
+        .scroller h1 {
+            text-transform: capitalize;
+        }
+      
+      </style>
+      <core-ajax auto url="/getchan" on-core-response="{{response}}"></core-ajax>
+      
+      <paper-dialog id="dialog" bind="{{selected}}" backdrop autoclosedisabled transition="core-transition-center">
+           <div id="background" style="position: absolute;z-index: -1;top: 0;bottom: 0;left: 0;right: 0;background: url({{selected.image}}) center center fixed no-repeat;opacity: .4;width: 100%;height: 100%;background-size: cover;"></div>
+            <center>
+                <p style="font-family: 'Roboto', sans-serif;font-size:1.5em;text-transform:uppercase">{{selected.name}}</p>
+                <img style="border-radius: 100px;border: solid 2px #333333;" height="70" width="70" src="{{selected.image}}" />
+          </center>
+          
+            <p style="font-family: 'Roboto', sans-serif;">Views this week</p>
+          <div style="height:300px;width:500px;font-family: 'Roboto', sans-serif;">
+              
+              <!-- LINE GRAPH -->
+              <svg id="visualisation" width="500" height="300"></svg>
+              
+            <paper-fab icon="close" style="background: blue;float:right" on-tap="{{closediag}}"></paper-fab>
+          </div>
+        </paper-dialog>
+      <div style="padding-left:40px">
+      <template repeat="{{i in items}}" style="width:300px">
+        <paper-shadow z="3" on-tap="{{toggleDialog}}" data-id="{{i.id}}" id="{{i.id}}">
+            <div style="height:75px;background-color:#CF0605">
+                <center style="padding-top:20px">
+                    <img height="100" width="100" src="{{i.snippet.thumbnails.high.url}}" />
+                </center>
+            </div>
+            <div style="height:200px; background-color:#eee">
+               <span></span>
+                <div id="title">
+                    <center>
+                        <p>{{i.snippet.title}}</p>
+                    </center>
+                </div>
+                <div>
+                    <center>
+                        <table id="stats" cellspacing="20">
+                            <tr>
+                                <th>Views</th>
+                                <th>Subscribers</th>
+                                <th>Comments</th>
+                            </tr>
+                            <tr>
+                                <td>{{i.statistics.viewCount}}</td>
+                                <td>{{i.statistics.subscriberCount}}</td>
+                                <td>{{i.statistics.commentCount}}</td>
+                            </tr>
+                        </table>
+                    </center>
+                </div>
+            </div>
+            
+      </paper-shadow>
+      </template>
+      </div>
+      
+  </template>
+    <script>
+    
+    Polymer('three-hundred', {
+        items: [],
+        
+      ready: function() {
+        //...
+
+          //MAKE API CALL
+
+
+      },
+      selected: {},
+      response: function(data) {
+          
+          var parsed = JSON.parse(data.detail.response);
+          
+          //SORT ARTISTS BY REVENUE
+          parsed.items.sort(function(a, b) {
+              return parseFloat(b.statistics.viewCount) - parseFloat(a.statistics.viewCount);
+            });
+          
+          //PASS THE SORTED ARRAY TO ITEMS
+          this.items = parsed.items;
+      },
+      closediag: function() {
+          var hi = this.$;
+          this.$.dialog.toggle();
+          
+          //DELETE THE CONTENTS OF THE 
+          
+          d3.select(hi.visualisation).select('svg').remove()    ;
+      },
+      getAnalytics: function() {
+          
+          //PASS THE CHANNEL ID - FROM THAT FUNCTION WE WILL GET THE LAST WEEK'S WORTH OF ANALYTICS
+          //EXECUTE AJAX REQUEST TO GET THE WEEK'S STATS FOR A VIDEO ID
+          
+          var url = "/getdetails",
+              id = this.selected.id,
+              
+              /*
+                NOTICE THIS VARIABLE - THIS ENABLES US TO SELECT ELEMENTS FOR USE IN D3.
+              */
+              elementGrab = this.$;
+          $.ajax({
+              method: "PUT",
+              url: url,
+              data: {id:id},
+              success: function(data){
+                  
+                  var parse = JSON.parse(data);
+                  var rows = parse.rows;
+                  
+                  
+                  var data = []
+                  
+                  /*
+                    CHANGE THE FORMAT TO SUIT D3
+                    WE HAD TO CREATE AN OBJECT ARRAY IN ORDER TO PROPERLY IDENTIFY THE DATE
+                    
+                    USING THE RAW INFORMATION (DATA) RETURNED ERRORS
+                  */
+                  for(i in rows) {
+                      data.push({date:rows[i][0],total:rows[i][1]});
+                  }
+                  
+                  var width = 500,
+                      height = 300,
+                      margin = {
+                          top: 20,
+                          right: 20,
+                          bottom: 20,
+                          left: 80
+                        };
+                  
+                  /*
+                  
+                  THIS DRAWS THE LINE - NOTICE THAT WE ARE NOT USING THE d3.timedate FUNCTION - 
+                  THIS IS WORKIGN WITH PLAIN JAVASCRIPT
+                  
+                  */
+                  var line = d3.svg.line()
+                        .x(function(d) { return x(new Date(d.date)); })
+                        .y(function(d) { return y(d.total); });
+                  
+                  var x = d3.time.scale()
+                    .domain([new Date(data[0].date), d3.time.day.offset(new Date(data[data.length - 1].date), 1)])
+                    .rangeRound([0, width - margin.left - margin.right]);
+
+                var y = d3.scale.linear()
+                    .domain([0, d3.max(data, function(d) { return d.total; })])
+                    .range([height - margin.top - margin.bottom, 0]);
+
+                var xAxis = d3.svg.axis()
+                    .scale(x)
+                    .orient('bottom')
+                    .ticks(d3.time.days, 1)
+                    .tickFormat(d3.time.format('%m-%d'))
+                    .tickSize(0)
+                    .tickPadding(8);
+
+                var yAxis = d3.svg.axis()
+                    .scale(y)
+                    .orient('left')
+                    .tickPadding(8);
+                
+                  var svg = d3.select(elementGrab.visualisation).append('svg')
+                    .attr('class', 'chart')
+                    .attr('width', width)
+                    .attr('height', height)
+                  .append('g')
+                    .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+
+                svg.selectAll('.chart')
+                    .data(data)
+                  .enter().append('path')
+                    .attr('class', 'line')
+                    .attr('stroke', 'blue')
+                    .attr('stroke-width', 1)
+                    .attr('fill', 'none')
+                    .attr("d", line(data));
+
+                svg.append('g')
+                    .attr('class', 'x axis')
+                    .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
+                    .call(xAxis);
+
+                svg.append('g')
+                  .attr('class', 'y axis')
+                  .call(yAxis); 
+              }
+          })
+      },
+      toggleDialog: function(e,detail,sender) {
+          
+          var root = sender.templateInstance.model.i;
+          this.selected.id = root.id;
+          this.selected.name = root.snippet.title;
+          this.selected.image = root.snippet.thumbnails.high.url;
+          this.getAnalytics(this.id);
+          this.$.dialog.toggle();
+          
+      }
+    });
+
+    
+  </script>
+</polymer-element>
