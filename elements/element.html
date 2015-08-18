@@ -198,7 +198,7 @@ right: 200px;" height="70" width="70" src="{{selected.image}}" />
                                     
                                     <template repeat="{{i in selected.videos}}">
                                         <tr>
-                                            <td style="max-width:150px">{{i.title}}</td>
+                                            <td style="max-width:150px"><a href="{{i.url}}" target="_blank">{{i.title}}</a></td>
                                             <td align="right">{{i.published}}</td>
                                         </tr>
                                     </template>
@@ -320,7 +320,7 @@ right: 200px;" height="70" width="70" src="{{selected.image}}" />
               elementGrab = this.$,
               hi = this.$,
               selected = this.selected;
-              console.log(hi);
+          
               hi.analyticsSpinner.active = true;
           $.ajax({
               method: "PUT",

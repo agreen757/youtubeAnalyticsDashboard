@@ -44,32 +44,36 @@ module.exports = function (channel, token, cb) {
                 videoParse,
                 vidstats,
                 vidsnippet,
-                details;
+                details,
+                id,
+                newurl;
             
             /*
                 push to the silo
             */
-            
-            function videoDetails(videoDetailUrl, count) {
+            function videoDetails(videoDetailUrl, id) {
                 
                 request.get(videoDetailUrl, function (e, r, b) {
                     
                     videoParse = JSON.parse(b);
                     
+                    
                     if (videoParse.items !== undefined) {
                         
                         if (videoParse.items[0] !== undefined) {
-                        
-                            details = {};
+                            
+                            newurl = "https://www.youtube.com/watch?v=" + id;
 
+                            details = {};
                             vidstats = videoParse.items[0].statistics;
                             vidsnippet = videoParse.items[0].snippet;
-
                             details.title = vidsnippet.title;
                             details.published = vidsnippet.publishedAt.split('T')[0];
                             details.views = vidstats.viewCount;
                             details.comments = vidstats.commentCount;
                             details.likes = vidstats.likeCount;
+                            
+                            details.url = newurl;
 
                             silo.videos.push(details);
                             //console.log(vidstats);
@@ -85,13 +89,16 @@ module.exports = function (channel, token, cb) {
                 
                 if (parsed.items[i] !== null) {
                     
-                    item = parsed.items[i];
+                    item = parsed.items[i],
+                        id = parsed.items[i].id.videoId;
+                    
+                    
                     
                     //get the stats for each video
                     
-                    videoDetailUrl = 'https://www.googleapis.com/youtube/v3/videos?part=statistics%2Csnippet&id=' + item.id.videoId + '&access_token=' + token;
+                    videoDetailUrl = 'https://www.googleapis.com/youtube/v3/videos?part=statistics%2Csnippet%2Cid&id=' + item.id.videoId + '&access_token=' + token;
                     
-                    videoDetails(videoDetailUrl, i);
+                    videoDetails(videoDetailUrl, id);
                     
                 }
                 
