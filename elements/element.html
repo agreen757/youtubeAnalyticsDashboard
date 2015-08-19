@@ -347,6 +347,14 @@ right: 200px;" height="70" width="70" src="{{selected.image}}" />
                   var parse = JSON.parse(data.channelStats);
                   var rows = parse.rows;
                   
+                  /*ERROR CATCH AUTHENTICATION ERRORS*/
+                  
+                  if (parse.error !== null) {
+                      
+                      window.location.assign('/auth');
+                      
+                  }
+                  
                   
                   var data = [];
                   
