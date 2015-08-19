@@ -282,6 +282,19 @@ right: 200px;" height="70" width="70" src="{{selected.image}}" />
           
           var parsed = JSON.parse(data.detail.response);
           
+          /*
+            ADD ERROR CHECK FOR PEOPLE WHO ARE NOT AUTHENTICATED TO THE THREEHUNDRED CMS
+            
+            FOR NOW REDIRECT TO THE LANDING PAGE
+          */
+          
+          if(parsed.items === undefined) {
+              
+              window.location.assign('/');
+              
+          }
+          
+          
           console.log(this.$)
           this.$.spinner.active = false;
           
