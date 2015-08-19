@@ -16,7 +16,8 @@
 <link rel="import" href="/bower_components/paper-button/paper-button.html" />
 <link rel="import" href="/bower_components/core-icons/core-icons.html" />
 <link rel="import" href="/bower_components/paper-fab/paper-fab.html" />
-<link rel="import" href="/bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="/bower_components/paper-spinner/paper-spinner.html" />
+<link rel="import" href="/bower_components/paper-shadow/paper-shadow.html" />
 
 <script src="/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="/bower_components/d3/d3.js"></script>
@@ -29,6 +30,11 @@
         body {
             font-family: 'Roboto', sans-serif;
         }
+        
+        .title {
+            font-size:1.5em;color:white
+        }
+        
         paper-shadow {
             width: 300px;
             display: inline-block;
@@ -135,26 +141,12 @@
         height:100px;
         color:red;
     }
-        
+       
       
       </style>
       <core-ajax auto url="/getchan" on-core-response="{{response}}"></core-ajax>
       
       <paper-dialog id="dialog" bind="{{selected}}" backdrop autoclosedisabled transition="core-transition-center">
-           <!--<div id="background" style="position: absolute;z-index: -1;top: 0;bottom: 0;left: 0;right: 0;background: url({{selected.image}}) center center fixed no-repeat;opacity: .4;width: 100%;height: 100%;background-size: cover;"></div>
-            <center>
-                <p style="font-family: 'Roboto', sans-serif;font-size:1.5em;text-transform:uppercase">{{selected.name}}</p>
-                <img style="border-radius: 100px;border: solid 2px #333333;" height="70" width="70" src="{{selected.image}}" />
-            </center>
-          
-            <p style="font-family: 'Roboto', sans-serif;">Views this week</p>
-          <div style="height:300px;width:500px;font-family: 'Roboto', sans-serif;">
-
-              
-              <svg id="visualisation" width="500" height="300"></svg>
-
-            <paper-fab icon="close" style="background: blue;float:right" on-tap="{{closediag}}"></paper-fab>
-          </div> -->
           
           <div class="card" layout horizontal style="height: 400px;
         border-radius: 3px;
@@ -215,6 +207,16 @@ right: 200px;" height="70" width="70" src="{{selected.image}}" />
           <paper-fab icon="close" style="background: blue;float:right;margin-top:340px" on-tap="{{closediag}}"></paper-fab>
           </div>
           
+        </paper-dialog>
+        <paper-dialog id="authErr" backdrop autoclosedisabled transition="core-transition-center" style="">
+            <paper-shadow class="heading" z="5" animated="true" style="">
+                <center>
+                    <div style="height:50%;background-color:#CF0605;padding:20px">
+                        <img id="art" height="100" width="100" src="http://300ent.com/wp-content/themes/300/assets/img/300_logo_black.svg">
+                        <p class="title" style="color:white;font-size:1.5em;font-family: 'Roboto', sans-serif">You are not authenticated in the Three Hundred CMS</p>
+                    </div>
+                </center>
+            </paper-shadow>
         </paper-dialog>
       <div style="position: absolute;
     top: 60%;
@@ -290,7 +292,17 @@ right: 200px;" height="70" width="70" src="{{selected.image}}" />
           
           if(parsed.items === undefined) {
               
-              window.location.assign('/');
+              //window.location.assign('/');
+              
+              console.log(this.$)
+              
+              this.$.authErr.toggle();
+              
+              setTimeout(function() {
+                  
+                  window.location.assign('/');
+                  
+              },2000)
               
           }
           
@@ -313,6 +325,11 @@ right: 200px;" height="70" width="70" src="{{selected.image}}" />
           //DELETE THE CONTENTS OF THE 
           this.selected.videos = [];
           d3.select(hi.visualisation).select('svg').remove();
+      },
+      alertAuth: function () {
+        
+          //ALERT THAT YOU DONT HAVE THE CREDENTIALS AND REDIRECT TO LANDING PAGE
+          
       },
       getAnalytics: function() {
           
