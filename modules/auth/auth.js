@@ -16,7 +16,7 @@ var passport = require('passport'),
     GOOGLE_CLIENT_ID = "468772544188.apps.googleusercontent.com",
     GOOGLE_CLIENT_SECRET = "LufQkK0YPcHbKetle54m8p2I";
 //var callbackUrl = "http://ec2-54-164-104-118.compute-1.amazonaws.com:9000/auth/callback";
-var callbackUrl = "http://localhost:9000/auth/callback";
+//var callbackUrl = "http://localhost:9000/auth/callback";
 var callbackUrl = "https://ind300.herokuapp.com/auth/callback";
 //var callbackUrl = "http://localhost:8080/auth/callback";
 //var callbackUrl = "http://dashboard.indmusicnetwork.com/auth/callback";
@@ -66,7 +66,7 @@ module.exports = function (app) {
         passport.authenticate('google', { failureRedirect: '/signup' }),
         function (req, res) {
         //console.log(req._passport.session.user[0])
-            res.redirect('/');
+            res.redirect('/dashboard');
         }
 
            );

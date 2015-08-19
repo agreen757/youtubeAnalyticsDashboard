@@ -14,7 +14,22 @@ app.use(bodyParser());
 app.use('/bower_components', express.static(__dirname + '/bower_components'));
 app.use('/elements', express.static(__dirname + '/elements'));
 
-app.get('/', ensureAuth, function (req, res) {
+app.get('/', function (req, res) {
+    'use strict';
+    
+    res.sendFile('landing.html', {root: __dirname});
+    
+});
+
+app.get('/logout', function (req,res) {
+    'use strict';
+    
+    req.logout();
+    res.redirect('/')
+    
+})
+
+app.get('/dashboard', ensureAuth, function (req, res) {
     'use strict';
     res.sendFile('app.html', {root: __dirname});
 });
@@ -37,7 +52,6 @@ app.put('/getdetails', function (req, res) {
         res.send(response);
     });
 });
-
 
 
 app.listen(process.env.PORT);

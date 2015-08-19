@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/core-scroll-header-panel/core-scroll-header-panel.html">
 <link rel="import" href="../bower_components/core-toolbar/core-toolbar.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="./element.html" />
 <script src="/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="/bower_components/d3/d3.js"></script>
@@ -29,6 +30,9 @@
                 <div style="width:200px;margin-top:10px">
                     <center><img id="image" src="http://300ent.com/wp-content/themes/300/assets/img/300_logo_black.svg" width="100" height="100" style="border-radios:100px"></center>
                 </div>
+                <div style="position:fixed;right:0;top:0px">
+                    <paper-fab icon="exit-to-app" style="background: blue;float:right;margin-top:5px" on-tap="{{logout}}"></paper-fab>
+                </div>
             </core-toolbar>
             <three-hundred></three-hundred>
         </core-scroll-header-panel>
@@ -49,7 +53,12 @@
               'scale(' + scale + ') translateZ(0)';
             });
 
-      }
+      },
+        logout: function(e) {
+            
+            window.location.href = '/logout'
+            
+        }
     })
     </script>
 </polymer-element>

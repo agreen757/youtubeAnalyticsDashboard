@@ -225,7 +225,7 @@ right: 200px;" height="70" width="70" src="{{selected.image}}" />
     margin-left: -200px;">
         <paper-spinner role="progressbar" id="spinner" style="width:200px;height:200px"></paper-spinner>
       </div>
-      <div style="padding-left:40px">
+      <div style="margin:0 auto; width:1000px">
       <template repeat="{{i in items}}" style="width:300px">
         <paper-shadow z="3" on-tap="{{toggleDialog}}" data-id="{{i.id}}" id="{{i.id}}">
             <div style="height:75px;background-color:#CF0605">
@@ -389,14 +389,16 @@ right: 200px;" height="70" width="70" src="{{selected.image}}" />
                 var xAxis = d3.svg.axis()
                     .scale(x)
                     .orient('bottom')
-                    .ticks(d3.time.days, 1)
+                    .ticks(d3.time.days, 2)
                     .tickFormat(d3.time.format('%m-%d'))
-                    .tickSize(0)
+                    .tickSize(1)
                     .tickPadding(8);
 
                 var yAxis = d3.svg.axis()
                     .scale(y)
+                    .ticks(7)
                     .orient('left')
+                    .tickSize(1)
                     .tickPadding(8);
                 
                   var svg = d3.select(elementGrab.visualisation).append('svg')

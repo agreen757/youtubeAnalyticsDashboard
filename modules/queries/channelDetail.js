@@ -7,7 +7,7 @@ module.exports = function (channel, token, cb) {
     'use strict';
     
     var endDate       =new Date(),
-        in_a_week   =new Date().setDate(endDate.getDate() - 7),
+        in_a_week   =new Date().setDate(endDate.getDate() - 9),
         week = new Date(in_a_week),
         end = endDate.toISOString().split('T')[0],
         start = week.toISOString().split('T')[0]
