@@ -177,28 +177,30 @@ right: 200px;" height="70" width="70" src="{{selected.image}}" />
                             <paper-spinner role="progressbar" id="analyticsSpinner" style="width:100px;height:100px"></paper-spinner>
                           </div>
                           <div class="card-album-title" style="font-family: 'Roboto', sans-serif;font-size:2em">{{selected.name}}</div>
-                          <div id="videoTable" style="">
+                          
+                      </center>
+                      <div id="videoTable" style="">
                               
-                            <table style="font-family: 'Roboto', sans-serif" cellspacing="30">
+                            <table style="font-family: 'Roboto', sans-serif" cellspacing="10">
                                 <thead>
                                     <tr>
                                         <th style="border:1px solid black">Video Title</th>
                                         <th style="border:1px solid black">Date Uploaded</th>
+                                        <th style="border:1px solid black">Total Views</th>
                                     </tr>
                                 </thead>
                                 <tbody style="font-size:.8em;">
                                     
                                     <template repeat="{{i in selected.videos}}">
                                         <tr>
-                                            <td style="max-width:150px"><a href="{{i.url}}" target="_blank">{{i.title}}</a></td>
-                                            <td align="right">{{i.published}}</td>
+                                            <td style="max-width:100px"><a href="{{i.url}}" target="_blank">{{i.title}}</a></td>
+                                            <td align="center">{{i.published}}</td>
+                                            <td align="center">{{i.views}}</td>
                                         </tr>
                                     </template>
                                 </tbody>
                             </table>
                           </div>
-                          
-                      </center>
                     <div class="card-album-artist">{{selectedAlbum.artist}}</div>
                   </div>
                 </div>
@@ -357,7 +359,7 @@ right: 200px;" height="70" width="70" src="{{selected.image}}" />
               url: url,
               data: {id:id},
               success: function(data){
-                  //console.log(data);
+                  
                   hi.analyticsSpinner.active = false;
             
                   /*
