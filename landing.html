@@ -75,7 +75,7 @@
     <center class="login" id="login">
         <paper-shadow class="heading" z="5" animated="true">
             <div style="height:50%;background-color:#CF0605">
-                <img id="art" height="100" width="100" src="http://300ent.com/wp-content/themes/300/assets/img/300_logo_black.svg">
+                <img id="art" height="100" width="100" src="">
                 <p id="title">Analytics Dashboard</p>
             </div>
             <div style="height:50%">
@@ -90,13 +90,13 @@
     function auth(){
         window.location.assign('/auth')
     }
-    /*function spin(){
-        $('#login').css('animation', 'spin 1s ease')
-    }*/
+
      window.addEventListener('polymer-ready', function(e) {
          
       $.get('/header').success(function(data){
-          console.log(data)
+          
+          $('#art').attr('src',data.client.logo);
+          
       })
          
          
