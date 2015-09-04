@@ -1,15 +1,56 @@
 /*jslint node: true */
 /*jslint nomen: true */
 
-var request = require('request');
+var request = require('request'),
+    ownerName = require(__dirname + '/../../config.json');
 
 module.exports = function (token, cb) {
     'use strict';
     
-    var url = "https://www.googleapis.com/youtube/v3/channels?part=id%2Csnippet%2Cstatistics&managedByMe=true&maxResults=50&onBehalfOfContentOwner=threehundred&access_token=" + token;
+    var url = "https://www.googleapis.com/youtube/v3/channels?part=id%2Csnippet%2Cstatistics&managedByMe=true&maxResults=50&onBehalfOfContentOwner=" + ownerName.owner + "&access_token=" + token,
+        channels = {
+            items: []
+        };
     
-    request.get(url, function (e, r, b) {
-        return cb(null, b);
-    });
+    
+    function getChannels(url) {
+        
+        
+        request.get(url, function (e, r, b) {
+            
+            var i,
+                chan,
+                npt,
+                parse = JSON.parse(b);
+            
+            for (i in parse.items) {
+                
+                if (parse.items[i] !== null) {
+                    
+                    chan = parse.items[i];
+                
+                    channels.items.push(parse.items[i]);
+                    
+                }
+                
+            }
+            
+            if (parse.nextPageToken !== undefined) {
+                npt = parse.nextPageToken;
+                url = "https://www.googleapis.com/youtube/v3/channels?part=id%2Csnippet%2Cstatistics&managedByMe=true&maxResults=50&onBehalfOfContentOwner=" + ownerName.owner + "&pageToken=" + npt + "&access_token=" + token;
+                
+                getChannels(url);
+                
+            } else {
+                
+                return cb(null, channels);
+                
+            }
+            
+        });
+        
+    }
+    
+    getChannels(url);
     
 };

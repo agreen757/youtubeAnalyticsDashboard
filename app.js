@@ -1,8 +1,9 @@
 /*jslint node: true */
 /*jslint nomen: true */
 
-var express = require('express');
-var bodyParser = require('body-parser');
+var express = require('express'),
+    bodyParser = require('body-parser'),
+    headerImage = require('./config.json');
 
 var app = express(),
     auth = require('./modules/auth/auth.js')(app),
@@ -21,13 +22,13 @@ app.get('/', function (req, res) {
     
 });
 
-app.get('/logout', function (req,res) {
+app.get('/logout', function (req, res) {
     'use strict';
     
     req.logout();
-    res.redirect('/')
+    res.redirect('/');
     
-})
+});
 
 app.get('/dashboard', ensureAuth, function (req, res) {
     'use strict';
@@ -53,6 +54,13 @@ app.put('/getdetails', function (req, res) {
     });
 });
 
+//GET HEADER IMAGE
+app.get('/header', function (req, res) {
+    'use strict';
+    res.send(headerImage);
+    
+})
 
-app.listen(process.env.PORT);
+
+app.listen(9000);
 console.log('listening');
