@@ -1,7 +1,7 @@
 # YouTube MCN Channel Analytics Dashboard
 
 <center>
-    <img src="https://gyazo.com/bff33dc3fdf7a713e3ed59acd0c5bab7">
+    <img src="https://i.gyazo.com/bff33dc3fdf7a713e3ed59acd0c5bab7.png">
 </center>
 
 * * *
