@@ -12,7 +12,7 @@ The <a href="Passport">Passport</a> module is used for Google Oauth 2.0 authenti
 
 ## Getting Started
 
-Edit the config.json file with your needed information - pay specific attention to the client.owner parameter.  This is the channel that you will be authenticating as.  In my experience it has been your channel name in all lowercase with <strong>'-'-'</strong> replacing spaces.  You can add your own logos and header image as well.
+Edit the config.json file with your needed information - pay specific attention to the client.owner parameter.  This is the channel that you will be authenticating as.  In my experience it has been your channel name in all lowercase with <strong>'-'</strong> replacing spaces.  You can add your own logos and header image as well.
 
 ## Roadmap
 
