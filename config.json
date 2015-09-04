@@ -1,5 +1,10 @@
 {
-    "owner": "threehundred",
-    "headerImage": "http://300ent.com/wp-content/uploads/2015/08/skull-ONLY.png",
-    "logo": "http://300ent.com/wp-content/themes/300/assets/img/300_logo_black.svg"
+    "client":{
+        "owner": "threehundred",
+        "headerImage": "http://300ent.com/wp-content/uploads/2015/08/skull-ONLY.png",
+        "logo": "http://300ent.com/wp-content/themes/300/assets/img/300_logo_black.svg"
+    },
+    "server":{
+        "callback": "http://300.indmusicnetwork.com/auth/callback"
+    }
 }

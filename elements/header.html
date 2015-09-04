@@ -61,15 +61,14 @@
       },
         logout: function(e) {
             
-            window.location.href = '/logout'
+            window.location.href = '/logout';
             
         },
         dataChanged: function() {
             
             var infoParse = JSON.parse(this.data)
-            
-            this.headerImage = infoParse.headerImage;
-            this.logo = infoParse.logo;
+            this.headerImage = infoParse.client.headerImage;
+            this.logo = infoParse.client.logo;
             
         }
     })

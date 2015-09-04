@@ -12,7 +12,7 @@ module.exports = function (channel, token, cb) {
         week = new Date(in_a_week),
         end = endDate.toISOString().split('T')[0],
         start = week.toISOString().split('T')[0],
-        url = "https://www.googleapis.com/youtube/analytics/v1/reports?ids=contentOwner%3D%3D" + ownerName.owner + "&start-date=" + start + "&end-date=" + end + "&metrics=views%2CestimatedMinutesWatched%2CaverageViewDuration%2CaverageViewPercentage%2CsubscribersGained&dimensions=day&filters=channel%3D%3D" + channel + "&sort=day&access_token=" + token,
+        url = "https://www.googleapis.com/youtube/analytics/v1/reports?ids=contentOwner%3D%3D" + ownerName.client.owner + "&start-date=" + start + "&end-date=" + end + "&metrics=views%2CestimatedMinutesWatched%2CaverageViewDuration%2CaverageViewPercentage%2CsubscribersGained&dimensions=day&filters=channel%3D%3D" + channel + "&sort=day&access_token=" + token,
         vidurl = 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' + channel + '&order=date&maxResults=50&access_token=' + token,
         silo = {
             videos: []

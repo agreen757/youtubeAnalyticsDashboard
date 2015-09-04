@@ -14,13 +14,9 @@ var passport = require('passport'),
     session = require('express-session'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     GOOGLE_CLIENT_ID = "468772544188.apps.googleusercontent.com",
-    GOOGLE_CLIENT_SECRET = "LufQkK0YPcHbKetle54m8p2I";
-//var callbackUrl = "http://ec2-54-164-104-118.compute-1.amazonaws.com:9000/auth/callback";
-//var callbackUrl = "http://localhost:9000/auth/callback";
-//var callbackUrl = "https://ind300.herokuapp.com/auth/callback";
-//var callbackUrl = "http://localhost:8080/auth/callback";
-//var callbackUrl = "http://dashboard.indmusicnetwork.com/auth/callback";
-var callbackUrl = "http://300.indmusicnetwork.com/auth/callback";
+    GOOGLE_CLIENT_SECRET = "LufQkK0YPcHbKetle54m8p2I",
+    serverConf = require(__dirname + '/../../config.json'),
+    callbackUrl = serverConf.server.callback;
 
 passport.serializeUser(function (user, done) {
     'use strict';

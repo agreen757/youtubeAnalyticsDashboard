@@ -7,7 +7,7 @@ var request = require('request'),
 module.exports = function (token, cb) {
     'use strict';
     
-    var url = "https://www.googleapis.com/youtube/v3/channels?part=id%2Csnippet%2Cstatistics&managedByMe=true&maxResults=50&onBehalfOfContentOwner=" + ownerName.owner + "&access_token=" + token,
+    var url = "https://www.googleapis.com/youtube/v3/channels?part=id%2Csnippet%2Cstatistics&managedByMe=true&maxResults=50&onBehalfOfContentOwner=" + ownerName.client.owner + "&access_token=" + token,
         channels = {
             items: []
         };
