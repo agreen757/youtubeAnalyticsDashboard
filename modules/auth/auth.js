@@ -3,7 +3,7 @@
     
     Have all of our authentication done here.
     
-    We need to accept the entire express app from the app.js
+    accept the entire express app from the app.js
     then go through all of the ensureAuthenticated and ensureAdmin that we have from our main site.
 */
 
@@ -13,9 +13,9 @@
 var passport = require('passport'),
     session = require('express-session'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
-    GOOGLE_CLIENT_ID = "468772544188.apps.googleusercontent.com",
-    GOOGLE_CLIENT_SECRET = "LufQkK0YPcHbKetle54m8p2I",
     serverConf = require(__dirname + '/../../config.json'),
+    GOOGLE_CLIENT_ID = serverConf.server.clientId,
+    GOOGLE_CLIENT_SECRET = serverConf.server.clientSecret,
     callbackUrl = serverConf.server.callback;
 
 passport.serializeUser(function (user, done) {
@@ -40,8 +40,7 @@ module.exports = function (app) {
             function (accessToken, refreshToken, profile, done) {
             
                 process.nextTick(function () {
-                
-                //console.log(profile);                                                                        
+                                                                                     
 
                     return done(null, [{token: accessToken, rToken: refreshToken, 'profile': profile}]);
                 });
@@ -51,7 +50,7 @@ module.exports = function (app) {
     }
     
     
-    app.use(session({secret: 'INDMUSIC1234'}));
+    app.use(session({secret: serverConf.server.sessionSecret}));
     app.use(passport.initialize());
     app.use(passport.session());
     
@@ -62,7 +61,7 @@ module.exports = function (app) {
     app.get('/auth/callback',
         passport.authenticate('google', { failureRedirect: '/signup' }),
         function (req, res) {
-        //console.log(req._passport.session.user[0])
+        
             res.redirect('/dashboard');
         }
 

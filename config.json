@@ -1,10 +1,13 @@
 {
     "client":{
-        "owner": "threehundred",
+        "owner": "yourchannelname",
         "headerImage": "http://300ent.com/wp-content/uploads/2015/08/skull-ONLY.png",
         "logo": "http://300ent.com/wp-content/themes/300/assets/img/300_logo_black.svg"
     },
     "server":{
-        "callback": "http://300.indmusicnetwork.com/auth/callback"
+        "callback": "http://localhost:9000/auth/callback",
+        "clientId": 'CLIENT_ID',
+        "clientSecret": 'YOUR_SECRET',
+        "sessionSecret": 'YOUR_SESSION_SECRET'
     }
 }
